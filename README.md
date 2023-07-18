@@ -34,9 +34,11 @@
 # setting up test
 - clone this repository onto your computer
 - Open the cloned repo in an editor of choice
-- Open terminal of the editor and run the command below
-   ```npm i```
+- Open terminal of the editor and run the command ```npm i```
 - The above will install the necessary dependencies for your code to run
 - Run ```npm run test``` to open the cypress runner
 - Click on the test (purchaseVoucher.cy.js) to run the test
 - to generate report.....
+
+
+##### to check if the mail was delivered, I used an external email provider called mailslurp

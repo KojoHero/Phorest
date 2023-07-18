@@ -1,25 +1,13 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+const { MailSlurp } = require("mailslurp-client");
+
+const apiKey = "c6826256bb0a902ad2172deaf105114e21c4d1d7f54cd5b8eb5c0ac47028f064"
+const mailslurp = new MailSlurp({ apiKey });
+Cypress.Commands.add("createInbox", () => {
+  return mailslurp.createInbox();
+});
+
+Cypress.Commands.add("waitForLatestEmail", (inboxId) => {
+  const timeoutMillis = 30000;
+  return mailslurp.waitForLatestEmail(inboxId, timeoutMillis);
+});

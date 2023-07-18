@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^12.17.1"
+  },
+  "dependencies": {
+    "mailslurp-client": "^15.17.2"
   }
 }
