@@ -1,11 +1,3 @@
-function selectGiftCardValue() {
-    const options = ['$50','$100','$150','Other']
-    const giftCardValue = Math.floor(Math.random()*options.length)
-    if (options==='Other'){
-        cy.g
-    }
-}
-
 export function generateRandomName() {
     const firstName = ['Happy', 'Paul', 'James', 'Holland', 'Jane', 'Eva', 'Mike', 'John'];
     const lastName = ['Mathews', 'Roberts', 'Callum', 'Adams', 'Tyler', 'Tiger', 'Woods', 'Doe'];

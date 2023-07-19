@@ -53,28 +53,31 @@ It became necesary to create intercepts of certain services in the test process 
 Example, Check line 26 and 45 used at line 30 and 46 in the `purchaseVoucherForSelf.cy.js` test file
 
 
-## CI for the test
+### CI for the test
 
--- The CI tool used was GitHub Action
--- It is set that the the test runs on two instances.
+- The CI tool used was GitHub Action
+The test runs on two instances.
      -- on push (when a new set of code is pushed to Github)
-     -- every 5pm of a week day (Assuming close of day - so that tests result can be seen early morning the next working day)
+     -- every 5pm of a week day (Assuming close of day is 5pm - so that tests result can be seen early morning the next working day)
 
 
-
-## Bugs Identified
-- Expired credit card
-
-
-
-# setting up test
+# Test setup
 - clone this repository onto your computer
 - Open the cloned repo in an editor of choice
 - Open terminal of the editor and run the command ```npm i```
 - The above will install the necessary dependencies for your code to run
 - Run ```npm run test``` to open the cypress runner
-- Click on the test (purchaseVoucher.cy.js) to run the test
-- to generate report.....
+- Click on the test file to run it
 
 
-##### to check if the mail was delivered, I used an external email provider called mailslurp
+## Bugs Identified
+- First name and Last name fields accept numbers. Image here `/Images/Screenshot 2023-07-19 at 2.49.47 PM.png`
+- Credit card image does not show amount after visiting test confirmation page
+   #### Steps to reproduce
+   1. select a gift card value (assert that the value is displayed on the gift card image)
+   2. Fill the user details fields
+   3. Click on "Checkout" button to visit the checkout confirmation page
+   4. Click on edit to return to the previous page
+   5. assert that the gift card value is no longer displayed on the gift card value
+   Screenshot: `Images/Screenshot 2023-07-19 at 2.59.38 PM.png`
+
