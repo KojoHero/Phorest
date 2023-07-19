@@ -28,6 +28,7 @@ describe("Purchase voucher for someone", () => {
   });
 
   it("Should visit the checkout page and fill all fields", () => {
+    cy.contains(emailAddress).should('be.visible')
     cy.intercept( "POST","https://m.stripe.com/6").as("cardInfo");
     const {name, creditCard, cvc, date, zipCode} = data
     cy.get('button[data-action="confirm#confirmAction"]').click()
