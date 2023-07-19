@@ -4,19 +4,14 @@ import { generateRandomName } from "../support/functions";
 describe("Purchase voucher for someone", () => {
   let inboxId;
   let emailAddress;
-  let recipentEmailAddress;
   const randomName = generateRandomName();
 
-  it("Should visit the voucher purchase page and complete form", () => {
-    cy.intercept( "GET","https://gift-cards.phorest.com/salons/demous//checkout*").as("checkoutRequest");
+  before(() => {
     cy.visit("/");
+    cy.get('#option100').click();
+  });
 
-    cy.wait("@checkoutRequest", { timeout: 10000 })
-      .its("response.statusCode")
-      .should("eq", 200);
-
-    cy.get('#option50').click()
-
+  it("Should visit the voucher purchase page and complete form", () => {
     cy.createInbox().then((inbox) => {
       inboxId = inbox.id;
       emailAddress = inbox.emailAddress;
@@ -26,38 +21,38 @@ describe("Purchase voucher for someone", () => {
       cy.get('input[data-target="name.purchaserFirstNameInput"]').type(randomName[0]);
       cy.get('input[data-target="name.purchaserLastNameInput"]').type(randomName[1]);
       cy.get('input[data-target="email.recipientEmailInput"]').type(emailAddress);
-      cy.get('input[data-target="email.recipientEmailInput"]').type("This is your gift card voucher");
+      cy.get('textarea[data-target="email.recipientMessageInput"]').type("This is your gift card voucher");
     });
 
-    cy.get('button[data-target="checkout.checkoutButton"]').click()
-    //assert details on the checkout confirmation page
-    //voucher
-    //email
-
+    cy.get('button[data-target="checkout.checkoutButton"]').first().click({force:true})
   });
 
-
   it("Should visit the checkout page and fill all fields", () => {
+    cy.intercept( "POST","https://m.stripe.com/6").as("cardInfo");
     const {name, creditCard, cvc, date, zipCode} = data
     cy.get('button[data-action="confirm#confirmAction"]').click()
-    cy.get('#card-name').type(name);
-    cy.get('#card-number').type(creditCard);
-    cy.get('#card-security').type(cvc);
-    cy.get('#card-zip').type(zipCode);
-    cy.get('#card-expiry').type(date);
-    cy.get('#submitButton').click();
+    cy.wait('@cardInfo')
+    
+    cy.get('iframe[id^="hostedform-"]').then($iframe => {
+      const iframe = $iframe.contents();
+      
+      cy.wrap(iframe.find('input[name="cardName"]')).type(name);
+      cy.wrap(iframe.find('input[name="cardNumber"]')).type(creditCard);
+      cy.wrap(iframe.find('input[name="cardExpiry"]')).type(date);
+      cy.wrap(iframe.find('input[name="cardSecurity"]')).type(cvc);
+      cy.wrap(iframe.find('input[name="cardZip"]')).type(zipCode);
+      cy.wrap(iframe.find('button[id="submitButton"]')).click()
+    });
   });
 
   it("Should test that email has been delivered", () => {
+    cy.intercept('POST', 'https://gift-cards.phorest.com/salons/demous/purchases').as('successMessage');
+    cy.wait('@successMessage');
+    cy.contains('Payment accepted, thank you!').should('be.visible')
     cy.contains('Payment accepted, thank you!').should('be.visible')
     cy.waitForLatestEmail(inboxId).then(email => {
-        // verify we received an email
-        assert.isDefined(email);
-        const emailSubject = email.body
-        code = /([0-9]{2})$/.exec(emailSubject)[1];
-    
-        // verify that email contains the code
-        assert.strictEqual(`You've been sent a $${code}.00 gift card for Demo US!`, true);
-      });
+      assert.isDefined(email);
+      expect(email.subject).to.equal(`You've been sent a $100.00 gift card for Demo US!`);
+    });
   });
 });

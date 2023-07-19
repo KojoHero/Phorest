@@ -1,6 +1,44 @@
 # Phorest Assignment documentation
 
-### The test is scripted in javascript using cypress e2e automation tool.
+## Methodology
+
+Since the assignment is to test the voucher purchasing flow and vouchers can be purchased for oneself and others in my preferred language, I used **Cypress with Javascript**.
+I divided the test file in two; i.e *purchaseVoucherForOthers.cy.js* and *purchaseVoucherForSelf.cy.js*.
+
+### Details
+- purchaseVoucherForSelf.cy.js
+
+I stored the details of the credit card to be used in json file and created a function that returns random first and last names and imported them into the test. (line 1-2)
+
+Declaration of variables (line 5-7)
+
+A `before` hook that visits the test page and select a gift card type (line 9-12)
+
+Since I will check if email was delivered, I integrated a third party application called *Mailslurp* to provide email services. (generate email and provide inbox sevices)
+
+The first `It` block generates the email address, stores the inbox id, fills and submits the details of the gift card purchaser. (line 14-23)
+
+The next `it` block goes to the checkout page and fill the credit card details. (line 25-42). Since the form is in an iframe, I had to wrap the contents to be able to access them.
+
+The last `it` block asserts that the purchase was successful and the purchaser receives a mail confirming purchase. (line 44-56) 
+
+
+- purchaseVoucherForOthers.cy.js
+
+I stored the details of the credit card to be used in json file and created a function that returns random first and last names and imported them into the test. (line 1-2)
+
+Declaration of variables (line 5-7)
+
+A `before` hook that visits the test page and select a gift card type (line 9-12)
+
+Since I will check if email was delivered to the one it was bough for, I used *Mailslurp*
+
+The first `It` block generates the email address, stores the inbox id, fills and submits the details of the gift card purchaser and the one it is been purchased for. (line 14-28)
+
+The next `it` block goes to the checkout page and fill the credit card details. (line 30-46).
+
+The last `it` block asserts that the purchase was successful and the purchaser receives a mail confirming purchase. (line 48-58) 
+
 
 
 

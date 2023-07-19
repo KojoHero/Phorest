@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.17.1"
+    "@testing-library/cypress": "^9.0.0",
+    "cypress": "^12.17.1",
+    "cypress-iframe": "^1.0.1"
   },
   "dependencies": {
     "mailslurp-client": "^15.17.2"
