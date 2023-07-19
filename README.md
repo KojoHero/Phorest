@@ -3,7 +3,7 @@
 ## Methodology
 
 Since the assignment is to test the voucher purchasing flow and vouchers can be purchased for oneself and others in my preferred language, I used **Cypress with Javascript**.
-I divided the test file in two; i.e *purchaseVoucherForOthers.cy.js* and *purchaseVoucherForSelf.cy.js*.
+I divided the test into two files; i.e *purchaseVoucherForOthers.cy.js* and *purchaseVoucherForSelf.cy.js*.
 
 ### Details
 - purchaseVoucherForSelf.cy.js
@@ -40,19 +40,17 @@ The next `it` block goes to the checkout page and fill the credit card details. 
 The last `it` block asserts that the purchase was successful and the purchaser receives a mail confirming purchase. (line 48-58) 
 
 
+### Other Information
+- Custom commands
+Two custom commands were created to facilitate the email testing.
+     -- createInbox
+     -- waitForLatestEmail
+They can be found at `/cypress/support/commands.js` and are used in both tests.
 
+- Intercepts
+It became necesary to create intercepts of certain services in the test process so as not to add waiting time to the test or cause the test to fail due to the page waiting for them to load.
 
-
-
-
-
-
-
-
-
-
-
-
+Example, Check line 26 and 45 used at line 30 and 46 in the `purchaseVoucherForSelf.cy.js` test file
 
 
 ## CI for the test
