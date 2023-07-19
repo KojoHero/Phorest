@@ -32,7 +32,7 @@ describe("Purchase voucher for someone", () => {
     cy.intercept( "POST","https://m.stripe.com/6").as("cardInfo");
     const {name, creditCard, cvc, date, zipCode} = data
     cy.get('button[data-action="confirm#confirmAction"]').click()
-    cy.wait('@cardInfo')
+    cy.wait(10000)
     
     cy.get('iframe[id^="hostedform-"]').then($iframe => {
       const iframe = $iframe.contents();

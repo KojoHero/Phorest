@@ -71,7 +71,7 @@ The test runs on two instances.
 
 
 ## Bugs Identified
-- First name and Last name fields accept numbers. Image here `/Images/Screenshot 2023-07-19 at 2.49.47 PM.png`
+- First name and Last name fields can accept only numbers. Image here `/Images/Screenshot 2023-07-19 at 2.49.47 PM.png`
 - Credit card image does not show amount after visiting test confirmation page
    #### Steps to reproduce
    1. select a gift card value (assert that the value is displayed on the gift card image)
